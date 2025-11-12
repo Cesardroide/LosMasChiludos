@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Los Más Chiludos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #FDB515 0%, #F5A623 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .login-header {
+            background: linear-gradient(135deg, #FDB515 0%, #F5A623 100%);
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .logo-container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            display: inline-block;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 900;
+            color: #333;
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+
+        .logo-text .mas {
+            font-size: 14px;
+            display: block;
+        }
+
+        .logo-text .chiludos {
+            color: #E94B3C;
+            font-size: 32px;
+        }
+
+        .logo-text .restaurante {
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: #666;
+        }
+
+        .chile-icon {
+            color: #E94B3C;
+            font-size: 40px;
+            display: inline-block;
+            margin-bottom: -10px;
+        }
+
+        .welcome-text {
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        .login-form {
+            padding: 40px 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: #f9f9f9;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #FDB515;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(253, 181, 21, 0.1);
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-bottom: 25px;
+        }
+
+        .forgot-password a {
+            color: #E94B3C;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password a:hover {
+            color: #d43d2c;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #E94B3C 0%, #d43d2c 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(233, 75, 60, 0.3);
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(233, 75, 60, 0.4);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .register-link p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .register-link a {
+            color: #E94B3C;
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+
+        .register-link a:hover {
+            color: #FDB515;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                max-width: 100%;
+            }
+
+            .login-header {
+                padding: 30px 20px;
+            }
+
+            .login-form {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="logo-container">
+                <div class="logo-text">
+                    <span class="chile-icon">🌶️</span>
+                    <span class="mas">Los MÁS</span>
+                    <span class="chiludos">CHILUDOS</span>
+                    <span class="restaurante">RESTAURANTE</span>
+                </div>
+            </div>
+            <div class="welcome-text">¡Bienvenido de nuevo!</div>
+        </div>
+
+        <form class="login-form" id="loginForm">
+            <div class="form-group">
+                <label for="userInput">Usuario o Correo Electrónico</label>
+                <input 
+                    type="text" 
+                    id="userInput" 
+                    name="userInput" 
+                    placeholder="Ingresa tu usuario o correo"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    placeholder="Ingresa tu contraseña"
+                    required
+                >
+            </div>
+
+            <div class="forgot-password">
+                <a href="#" onclick="alert('Funcionalidad de recuperación de contraseña'); return false;">
+                    ¿Olvidaste tu contraseña?
+                </a>
+            </div>
+
+            <button type="submit" class="btn-login">Iniciar Sesión</button>
+
+            <div class="register-link">
+                <p>¿No tienes una cuenta? <a href="registro.html">Regístrate aquí</a></p>
+            </div>
+        </form>
+    </div>
+
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+        
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const userInput = document.getElementById('userInput').value;
+            const password = document.getElementById('password').value;
+            const btnLogin = document.querySelector('.btn-login');
+
+            // Deshabilitar botón durante la petición
+            btnLogin.disabled = true;
+            btnLogin.textContent = 'Iniciando sesión...';
+
+            try {
+                const response = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userInput: userInput,
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Guardar token y datos del usuario
+                    localStorage.setItem('token', data.data.token);
+                    localStorage.setItem('usuario', JSON.stringify(data.data.usuario));
+
+                    alert(data.message + '\n\nBienvenido: ' + data.data.usuario.nombre_completo);
+
+                    // Redirigir según el rol
+                    switch(data.data.usuario.rol) {
+                        case 'admin':
+                            window.location.href = 'panel_admin.html';
+                            break;
+                        case 'mesero':
+                            window.location.href = 'panel_mesero.html';
+                            break;
+                        default:
+                            window.location.href = 'inicio.html';
+                    }
+                } else {
+                    alert('Error: ' + data.message);
+                    btnLogin.disabled = false;
+                    btnLogin.textContent = 'Iniciar Sesión';
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error al conectar con el servidor. Asegúrate de que el backend esté corriendo.');
+                btnLogin.disabled = false;
+                btnLogin.textContent = 'Iniciar Sesión';
+            }
+        });
+    </script>
+</body>
+</html>

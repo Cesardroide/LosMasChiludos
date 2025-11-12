@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Los Más Chiludos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #FDB515 0%, #F5A623 100%);
+            min-height: 100vh;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            overflow: hidden;
+        }
+
+        .register-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            width: 100%;
+            max-width: 480px;
+            max-height: 98vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .register-header {
+            background: linear-gradient(135deg, #FDB515 0%, #F5A623 100%);
+            padding: 20px 25px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .logo-container {
+            background: white;
+            border-radius: 12px;
+            padding: 12px 16px;
+            display: inline-block;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 900;
+            color: #333;
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
+
+        .logo-text .mas {
+            font-size: 11px;
+            display: block;
+        }
+
+        .logo-text .chiludos {
+            color: #E94B3C;
+            font-size: 26px;
+        }
+
+        .logo-text .restaurante {
+            font-size: 8px;
+            letter-spacing: 2px;
+            color: #666;
+        }
+
+        .chile-icon {
+            color: #E94B3C;
+            font-size: 30px;
+            display: inline-block;
+            margin-bottom: -8px;
+        }
+
+        .welcome-text {
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            margin-top: 6px;
+        }
+
+        .subtitle {
+            color: white;
+            font-size: 12px;
+            margin-top: 4px;
+            opacity: 0.95;
+        }
+
+        .register-form {
+            padding: 25px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: #f9f9f9;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #FDB515;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(253, 181, 21, 0.1);
+        }
+
+        .password-hint {
+            font-size: 11px;
+            color: #666;
+            margin-top: 3px;
+            font-style: italic;
+        }
+
+        .terms-checkbox {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            gap: 8px;
+        }
+
+        .terms-checkbox input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            margin-top: 2px;
+            cursor: pointer;
+            accent-color: #E94B3C;
+            flex-shrink: 0;
+        }
+
+        .terms-checkbox label {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+            cursor: pointer;
+        }
+
+        .terms-checkbox a {
+            color: #E94B3C;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .terms-checkbox a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-register {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #E94B3C 0%, #d43d2c 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(233, 75, 60, 0.3);
+        }
+
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(233, 75, 60, 0.4);
+        }
+
+        .btn-register:active {
+            transform: translateY(0);
+        }
+
+        .btn-register:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .login-link p {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .login-link a {
+            color: #E94B3C;
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+
+        .login-link a:hover {
+            color: #FDB515;
+        }
+
+        .error-message {
+            color: #E94B3C;
+            font-size: 11px;
+            margin-top: 3px;
+            display: none;
+        }
+
+        .form-group.error input {
+            border-color: #E94B3C;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+
+        @media (max-width: 480px) {
+            .register-container {
+                max-width: 100%;
+            }
+
+            .register-header {
+                padding: 30px 20px;
+            }
+
+            .register-form {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-header">
+            <div class="logo-container">
+                <div class="logo-text">
+                    <span class="chile-icon">🌶️</span>
+                    <span class="mas">Los MÁS</span>
+                    <span class="chiludos">CHILUDOS</span>
+                    <span class="restaurante">RESTAURANTE</span>
+                </div>
+            </div>
+            <div class="welcome-text">Crear Cuenta</div>
+            <div class="subtitle">Únete a nuestra familia chiludísima</div>
+        </div>
+
+        <form class="register-form" id="registerForm">
+            <div class="form-group">
+                <label for="fullName">Nombre Completo *</label>
+                <input 
+                    type="text" 
+                    id="fullName" 
+                    name="fullName" 
+                    placeholder="Juan Pérez García"
+                    required
+                >
+                <span class="error-message">Por favor ingresa tu nombre completo</span>
+            </div>
+
+            <div class="form-group">
+                <label for="username">Nombre de Usuario *</label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    name="username" 
+                    placeholder="juanperez123"
+                    required
+                >
+                <span class="error-message">El nombre de usuario debe tener al menos 4 caracteres</span>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Correo Electrónico *</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    placeholder="tucorreo@ejemplo.com"
+                    required
+                >
+                <span class="error-message">Por favor ingresa un correo electrónico válido</span>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Contraseña *</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    placeholder="Ingresa una contraseña segura"
+                    required
+                >
+                <p class="password-hint">Mínimo 8 caracteres, incluye mayúsculas, minúsculas y números</p>
+                <span class="error-message">La contraseña debe tener al menos 8 caracteres</span>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirmar Contraseña *</label>
+                <input 
+                    type="password" 
+                    id="confirmPassword" 
+                    name="confirmPassword" 
+                    placeholder="Confirma tu contraseña"
+                    required
+                >
+                <span class="error-message">Las contraseñas no coinciden</span>
+            </div>
+
+            <div class="terms-checkbox">
+                <input 
+                    type="checkbox" 
+                    id="terms" 
+                    name="terms" 
+                    required
+                >
+                <label for="terms">
+                    Acepto los <a href="#" onclick="alert('Términos y condiciones'); return false;">términos y condiciones</a> 
+                    y la <a href="#" onclick="alert('Política de privacidad'); return false;">política de privacidad</a> 
+                    de Los Más Chiludos
+                </label>
+            </div>
+
+            <button type="submit" class="btn-register">Registrarse</button>
+
+            <div class="login-link">
+                <p>¿Ya tienes una cuenta? <a href="login.html">Inicia sesión aquí</a></p>
+            </div>
+        </form>
+    </div>
+
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+        const form = document.getElementById('registerForm');
+        
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Limpiar errores previos
+            document.querySelectorAll('.form-group').forEach(group => {
+                group.classList.remove('error');
+            });
+
+            let isValid = true;
+
+            // Obtener valores
+            const fullName = document.getElementById('fullName');
+            const username = document.getElementById('username');
+            const email = document.getElementById('email');
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirmPassword');
+            const terms = document.getElementById('terms');
+            const btnRegister = document.querySelector('.btn-register');
+
+            // Validar nombre completo
+            if (fullName.value.trim().length < 3) {
+                fullName.parentElement.classList.add('error');
+                isValid = false;
+            }
+
+            // Validar nombre de usuario
+            if (username.value.trim().length < 4) {
+                username.parentElement.classList.add('error');
+                isValid = false;
+            }
+
+            // Validar email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email.value)) {
+                email.parentElement.classList.add('error');
+                isValid = false;
+            }
+
+            // Validar contraseña
+            if (password.value.length < 8) {
+                password.parentElement.classList.add('error');
+                isValid = false;
+            }
+
+            // Validar confirmación de contraseña
+            if (password.value !== confirmPassword.value) {
+                confirmPassword.parentElement.classList.add('error');
+                isValid = false;
+            }
+
+            // Validar términos
+            if (!terms.checked) {
+                alert('Debes aceptar los términos y condiciones para continuar');
+                isValid = false;
+            }
+
+            if (isValid) {
+                // Deshabilitar botón durante la petición
+                btnRegister.disabled = true;
+                btnRegister.textContent = 'Registrando...';
+
+                try {
+                    const response = await fetch(`${API_URL}/auth/registro`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            nombre_completo: fullName.value.trim(),
+                            username: username.value.trim(),
+                            email: email.value.trim(),
+                            password: password.value
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        // Guardar token y datos del usuario
+                        localStorage.setItem('token', data.data.token);
+                        localStorage.setItem('usuario', JSON.stringify(data.data.usuario));
+
+                        alert(data.message + '\n\nNombre: ' + data.data.usuario.nombre_completo + '\nUsuario: ' + data.data.usuario.username + '\nCorreo: ' + data.data.usuario.email);
+                        
+                        // Redirigir al inicio
+                        window.location.href = 'inicio.html';
+                    } else {
+                        alert('Error: ' + data.message);
+                        btnRegister.disabled = false;
+                        btnRegister.textContent = 'Registrarse';
+                    }
+
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Error al conectar con el servidor. Asegúrate de que el backend esté corriendo.');
+                    btnRegister.disabled = false;
+                    btnRegister.textContent = 'Registrarse';
+                }
+            }
+        });
+
+        // Validación en tiempo real
+        document.getElementById('confirmPassword').addEventListener('input', function() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = this.value;
+            
+            if (confirmPassword && password !== confirmPassword) {
+                this.parentElement.classList.add('error');
+            } else {
+                this.parentElement.classList.remove('error');
+            }
+        });
+    </script>
+</body>
+</html>

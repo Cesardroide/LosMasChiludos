@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Personal - Los Más Chiludos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #FDB515 0%, #F5A623 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .login-header {
+            background: linear-gradient(135deg, #333 0%, #1a1a1a 100%);
+            padding: 40px 30px;
+            text-align: center;
+            border-bottom: 5px solid #FDB515;
+        }
+
+        .logo-container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            display: inline-block;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 900;
+            color: #333;
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+
+        .logo-text .mas {
+            font-size: 14px;
+            display: block;
+        }
+
+        .logo-text .chiludos {
+            color: #E94B3C;
+            font-size: 32px;
+        }
+
+        .logo-text .restaurante {
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: #666;
+        }
+
+        .chile-icon {
+            color: #E94B3C;
+            font-size: 40px;
+            display: inline-block;
+            margin-bottom: -10px;
+        }
+
+        .staff-badge {
+            background: #FDB515;
+            color: #333;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 14px;
+            display: inline-block;
+            margin-top: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .welcome-text {
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        .login-form {
+            padding: 40px 30px;
+        }
+
+        .info-box {
+            background: #fff9e6;
+            border-left: 4px solid #FDB515;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .info-box p {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: #f9f9f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #FDB515;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(253, 181, 21, 0.1);
+        }
+
+        .form-group select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            padding-right: 40px;
+        }
+
+        .position-icon {
+            font-size: 20px;
+            margin-right: 8px;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #333 0%, #1a1a1a 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(135deg, #1a1a1a 0%, #000 100%);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 25px 0;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 15px;
+            color: #999;
+            font-size: 14px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .customer-link {
+            text-align: center;
+        }
+
+        .customer-link p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .customer-link a {
+            color: #E94B3C;
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+
+        .customer-link a:hover {
+            color: #FDB515;
+        }
+
+        .security-note {
+            background: #f0f8ff;
+            border-left: 4px solid #0066cc;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-top: 25px;
+        }
+
+        .security-note p {
+            color: #666;
+            font-size: 12px;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .security-note strong {
+            color: #0066cc;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                max-width: 100%;
+            }
+
+            .login-header {
+                padding: 30px 20px;
+            }
+
+            .login-form {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="logo-container">
+                <div class="logo-text">
+                    <span class="chile-icon">🌶️</span>
+                    <span class="mas">Los MÁS</span>
+                    <span class="chiludos">CHILUDOS</span>
+                    <span class="restaurante">RESTAURANTE</span>
+                </div>
+            </div>
+            <div class="staff-badge">👔 Acceso Personal</div>
+            <div class="welcome-text">Portal de Empleados</div>
+        </div>
+
+        <form class="login-form" id="staffLoginForm">
+            <div class="info-box">
+                <p>
+                    🔒 <strong>Acceso restringido:</strong> Este portal es exclusivo para personal autorizado de Los Más Chiludos.
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label for="employeeId">ID de Empleado *</label>
+                <input 
+                    type="text" 
+                    id="employeeId" 
+                    name="employeeId" 
+                    placeholder="Ingresa tu ID de empleado"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Contraseña *</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    placeholder="Ingresa tu contraseña"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="position">Puesto *</label>
+                <select id="position" name="position" required>
+                    <option value="">Selecciona tu puesto</option>
+                    <option value="admin">👨‍💼 Administrador</option>
+                    <option value="mesero">🍽️ Mesero</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-login">
+                🔐 Iniciar Sesión
+            </button>
+
+            <div class="security-note">
+                <p>
+                    <strong>🔒 Seguridad:</strong> Todas las sesiones son monitoreadas. 
+                    No compartas tus credenciales con nadie. Si olvidaste tu contraseña, 
+                    contacta al administrador.
+                </p>
+            </div>
+
+            <div class="divider">
+                <span>o</span>
+            </div>
+
+            <div class="customer-link">
+                <p>¿Eres cliente? <a href="login.html">Acceso de clientes aquí</a></p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+
+        document.getElementById('staffLoginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const employeeId = document.getElementById('employeeId').value;
+            const password = document.getElementById('password').value;
+            const position = document.getElementById('position').value;
+            const btnLogin = document.querySelector('.btn-login');
+
+            // Validaciones básicas
+            if (!employeeId || !password || !position) {
+                alert('❌ Por favor completa todos los campos');
+                return;
+            }
+
+            // Deshabilitar botón durante la petición
+            btnLogin.disabled = true;
+            btnLogin.textContent = '🔐 Verificando...';
+
+            try {
+                const response = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userInput: employeeId,
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    const usuario = data.data.usuario;
+
+                    // Verificar que el rol del usuario coincida con el puesto seleccionado
+                    if (usuario.rol !== position) {
+                        alert(`❌ Error: Tu cuenta es de tipo "${usuario.rol}" pero seleccionaste "${position}"`);
+                        btnLogin.disabled = false;
+                        btnLogin.textContent = '🔐 Iniciar Sesión';
+                        return;
+                    }
+
+                    // Verificar que el rol sea admin o mesero (no cliente)
+                    if (usuario.rol !== 'admin' && usuario.rol !== 'mesero') {
+                        alert('❌ Esta área es solo para personal del restaurante');
+                        btnLogin.disabled = false;
+                        btnLogin.textContent = '🔐 Iniciar Sesión';
+                        return;
+                    }
+
+                    // Guardar token y datos del usuario
+                    localStorage.setItem('token', data.data.token);
+                    localStorage.setItem('usuario', JSON.stringify(usuario));
+
+                    // Mensaje de éxito
+                    const positionText = position === 'admin' ? '👨‍💼 Administrador' : '🍽️ Mesero';
+                    const confirmation = `
+✅ ACCESO AUTORIZADO
+
+━━━━━━━━━━━━━━━━━━━━
+📋 INFORMACIÓN DE SESIÓN
+━━━━━━━━━━━━━━━━━━━━
+
+👤 Usuario: ${usuario.username}
+💼 Puesto: ${positionText}
+🕐 Hora de acceso: ${new Date().toLocaleTimeString('es-MX')}
+📅 Fecha: ${new Date().toLocaleDateString('es-MX')}
+
+━━━━━━━━━━━━━━━━━━━━
+
+Bienvenido al sistema de Los Más Chiludos 🌶️
+
+${position === 'admin' ? '🔧 Accediendo al panel de administración...' : '📋 Accediendo al sistema de pedidos...'}
+                    `;
+
+                    alert(confirmation);
+
+                    // Redirigir según el puesto
+                    if (position === 'admin') {
+                        window.location.href = 'panel_admin.html';
+                    } else if (position === 'mesero') {
+                        window.location.href = 'panel_mesero.html';
+                    }
+
+                } else {
+                    alert('❌ Error: ' + data.message);
+                    btnLogin.disabled = false;
+                    btnLogin.textContent = '🔐 Iniciar Sesión';
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Error al conectar con el servidor. Asegúrate de que el backend esté corriendo.');
+                btnLogin.disabled = false;
+                btnLogin.textContent = '🔐 Iniciar Sesión';
+            }
+        });
+
+        // Cambiar color del select según el puesto seleccionado
+        document.getElementById('position').addEventListener('change', function() {
+            const position = this.value;
+            const formGroup = this.closest('.form-group');
+            
+            if (position === 'admin') {
+                this.style.borderColor = '#0066cc';
+            } else if (position === 'mesero') {
+                this.style.borderColor = '#FDB515';
+            } else {
+                this.style.borderColor = '#e0e0e0';
+            }
+        });
+    </script>
+
+</body>
+</html>

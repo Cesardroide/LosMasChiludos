@@ -1,0 +1,108 @@
+### Los Más Chiludos - API Tests
+### Usa este archivo con REST Client (VS Code) o Postman
+
+@baseUrl = http://localhost:3000/api
+@contentType = application/json
+
+### Health Check
+GET http://localhost:3000/api/health
+
+### API Info
+GET http://localhost:3000/api
+
+###################################################
+### AUTENTICACIÓN
+###################################################
+
+### 1. Registro de nuevo usuario
+POST {{baseUrl}}/auth/registro
+Content-Type: {{contentType}}
+
+{
+  "nombre_completo": "Juan Pérez García",
+  "username": "juanperez123",
+  "email": "juan@ejemplo.com",
+  "password": "password123"
+}
+
+### 2. Login con usuario
+POST {{baseUrl}}/auth/login
+Content-Type: {{contentType}}
+
+{
+  "userInput": "juanperez123",
+  "password": "password123"
+}
+
+### 3. Login con email
+POST {{baseUrl}}/auth/login
+Content-Type: {{contentType}}
+
+{
+  "userInput": "juan@ejemplo.com",
+  "password": "password123"
+}
+
+### 4. Login Admin
+POST {{baseUrl}}/auth/login
+Content-Type: {{contentType}}
+
+{
+  "userInput": "admin",
+  "password": "admin123"
+}
+
+### 5. Obtener Perfil (requiere token)
+# Primero haz login y copia el token de la respuesta
+# Luego reemplaza "TU_TOKEN_AQUI" con el token real
+GET {{baseUrl}}/auth/perfil
+Authorization: Bearer TU_TOKEN_AQUI
+
+###################################################
+### PRUEBAS DE VALIDACIÓN (deberían fallar)
+###################################################
+
+### Usuario duplicado (debe fallar - 409)
+POST {{baseUrl}}/auth/registro
+Content-Type: {{contentType}}
+
+{
+  "nombre_completo": "Juan Pérez García",
+  "username": "juanperez123",
+  "email": "juan@ejemplo.com",
+  "password": "password123"
+}
+
+### Contraseña corta (debe fallar - 400)
+POST {{baseUrl}}/auth/registro
+Content-Type: {{contentType}}
+
+{
+  "nombre_completo": "Test User",
+  "username": "testuser",
+  "email": "test@ejemplo.com",
+  "password": "123"
+}
+
+### Email inválido (debe fallar - 400)
+POST {{baseUrl}}/auth/registro
+Content-Type: {{contentType}}
+
+{
+  "nombre_completo": "Test User",
+  "username": "testuser2",
+  "email": "email-invalido",
+  "password": "password123"
+}
+
+### Login con credenciales incorrectas (debe fallar - 401)
+POST {{baseUrl}}/auth/login
+Content-Type: {{contentType}}
+
+{
+  "userInput": "usuarioinexistente",
+  "password": "passwordincorrecto"
+}
+
+### Acceso a perfil sin token (debe fallar - 401)
+GET {{baseUrl}}/auth/perfil

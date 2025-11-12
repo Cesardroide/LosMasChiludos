@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosotros - Los Más Chiludos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 15px 50px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-box {
+            background: linear-gradient(135deg, #FDB515 0%, #F5A623 100%);
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-img {
+            width: 45px;
+            height: 45px;
+            font-size: 36px;
+        }
+
+        .logo-name {
+            font-size: 20px;
+            font-weight: 900;
+            color: #333;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            font-size: 16px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #E94B3C;
+        }
+
+        .nav-links a.active {
+            color: #E94B3C;
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #E94B3C;
+        }
+
+        .cart-button {
+            position: relative;
+            background: white;
+            border: 2px solid #FDB515;
+            color: #333;
+            padding: 10px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+        }
+
+        .cart-button:hover {
+            background: #FDB515;
+            transform: scale(1.1);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #E94B3C;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            border: 2px solid white;
+        }
+
+        .btn-session {
+            background: transparent;
+            border: 2px solid #FDB515;
+            color: #FDB515;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-session:hover {
+            background: #FDB515;
+            color: white;
+        }
+
+        .btn-session.logged-in {
+            border-color: #E94B3C;
+            color: #E94B3C;
+        }
+
+        .btn-session.logged-in:hover {
+            background: #E94B3C;
+            color: white;
+        }
+
+        .btn-reservar {
+            background: linear-gradient(135deg, #E94B3C 0%, #d43d2c 100%);
+            color: white !important;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(233, 75, 60, 0.3);
+        }
+
+        .btn-reservar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(233, 75, 60, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #FDB515 0%, #F5A623 100%);
+            padding: 80px 50px;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .hero p {
+            font-size: 20px;
+            line-height: 1.6;
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* Content Container */
+        .content-container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 40px;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 36px;
+            font-weight: 900;
+            color: #333;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .about-card {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .about-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        .about-card h3 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .about-card p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        /* Location Section */
+        .location-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .map-container {
+            background: linear-gradient(135deg, #f9f9f9 0%, #e8e8e8 100%);
+            border-radius: 12px;
+            padding: 40px;
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 3px dashed #ccc;
+        }
+
+        .map-placeholder {
+            text-align: center;
+        }
+
+        .map-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .map-placeholder h3 {
+            font-size: 24px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .map-placeholder p {
+            color: #999;
+            font-size: 14px;
+        }
+
+        .map-mockup {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .map-streets {
+            position: relative;
+            width: 100%;
+            max-width: 350px;
+            height: 300px;
+            background: #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .street {
+            position: absolute;
+            background: white;
+        }
+
+        .street-h {
+            height: 20px;
+            width: 100%;
+            left: 0;
+        }
+
+        .street-v {
+            width: 20px;
+            height: 100%;
+            top: 0;
+        }
+
+        .marker {
+            position: absolute;
+            font-size: 40px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translate(-50%, -50%); }
+            50% { transform: translate(-50%, -60%); }
+        }
+
+        .location-info {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .info-item {
+            display: flex;
+            gap: 15px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover {
+            background: #fff9e6;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .info-icon {
+            font-size: 32px;
+            flex-shrink: 0;
+        }
+
+        .info-details h4 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .info-details p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        .info-details a {
+            color: #E94B3C;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .info-details a:hover {
+            text-decoration: underline;
+        }
+
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .contact-card {
+            background: #f9f9f9;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            background: #fff9e6;
+            transform: translateY(-3px);
+        }
+
+        .contact-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .contact-card h4 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .contact-card p {
+            color: #666;
+            font-size: 15px;
+        }
+
+        .contact-card a {
+            color: #E94B3C;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .contact-card a:hover {
+            text-decoration: underline;
+        }
+
+        /* Social Media Section */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .facebook {
+            background: #1877f2;
+        }
+
+        .instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+
+        .whatsapp {
+            background: #25D366;
+        }
+
+        .tiktok {
+            background: #000;
+        }
+
+        .twitter {
+            background: #1DA1F2;
+        }
+
+        /* Schedule Section */
+        .schedule-table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+        }
+
+        .schedule-table tr {
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .schedule-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .schedule-table td {
+            padding: 20px;
+            font-size: 16px;
+        }
+
+        .schedule-table td:first-child {
+            font-weight: 700;
+            color: #333;
+            width: 40%;
+        }
+
+        .schedule-table td:last-child {
+            color: #666;
+            text-align: right;
+        }
+
+        .schedule-table .closed {
+            color: #E94B3C;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 60px;
+        }
+
+        .footer p {
+            font-size: 14px;
+        }
+
+        @media (max-width: 968px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .location-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content-container {
+                padding: 0 20px;
+            }
+
+            .section {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Verificación de sesión requerida -->
+    <script>
+        (function() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('⚠️ Debes iniciar sesión para acceder a esta sección');
+                window.location.href = 'login.html';
+            }
+        })();
+    </script>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo-box">
+                <div class="logo-img">🌶️</div>
+                <span class="logo-name">Los Más Chiludos</span>
+            </div>
+        </div>
+        <nav class="nav-links">
+            <a href="inicio.html">Inicio</a>
+            <a href="menu.html">Menú</a>
+            <a href="nosotros.html" class="active">Nosotros</a>
+            <button class="cart-button" onclick="window.location.href='carrito.html'">
+                🛒
+                <span class="cart-count" id="cartCount">0</span>
+            </button>
+            <button class="btn-session" id="sessionBtn" onclick="handleSession()">Iniciar Sesión</button>
+            <a href="reservas.html" class="btn-reservar">Reservar</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Nosotros</h1>
+            <p>Somos un restaurante familiar mexicano que lleva el sabor auténtico y chiludísimo de México a tu mesa. Desde 2015, nos hemos dedicado a preparar los mejores tacos, tortas y antojitos con ingredientes frescos y recetas tradicionales que han pasado de generación en generación.</p>
+        </div>
+    </section>
+
+    <!-- Content Container -->
+    <div class="content-container">
+        
+        <!-- About Section -->
+        <div class="section">
+            <h2 class="section-title">
+                🌶️ ¿Quiénes Somos?
+            </h2>
+            <div class="about-grid">
+                <div class="about-card">
+                    <div class="about-icon">🎯</div>
+                    <h3>Nuestra Misión</h3>
+                    <p>Ofrecer auténtica comida mexicana con el mejor sabor y servicio, manteniendo vivas las tradiciones culinarias de México.</p>
+                </div>
+
+                <div class="about-card">
+                    <div class="about-icon">👁️</div>
+                    <h3>Nuestra Visión</h3>
+                    <p>Ser el restaurante mexicano favorito de la región, reconocidos por nuestra calidad, autenticidad y el toque chiludísimo que nos caracteriza.</p>
+                </div>
+
+                <div class="about-card">
+                    <div class="about-icon">❤️</div>
+                    <h3>Nuestros Valores</h3>
+                    <p>Calidad, autenticidad, tradición familiar, servicio al cliente y pasión por la comida mexicana son los pilares de nuestro restaurante.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Location Section -->
+        <div class="section">
+            <h2 class="section-title">
+                📍 Ubicación
+            </h2>
+            <p class="section-subtitle">¡Ven a visitarnos! Estamos ubicados en el corazón de la ciudad</p>
+            
+            <div class="location-grid">
+                <div class="map-container">
+                    <div class="map-mockup">
+                        <div class="map-streets">
+                            <div class="street street-h" style="top: 30%;"></div>
+                            <div class="street street-h" style="top: 70%;"></div>
+                            <div class="street street-v" style="left: 35%;"></div>
+                            <div class="street street-v" style="left: 65%;"></div>
+                            <div class="marker">📍</div>
+                        </div>
+                        <p style="margin-top: 20px; color: #999; font-size: 14px;">
+                            Vista previa del mapa
+                        </p>
+                    </div>
+                </div>
+
+                <div class="location-info">
+                    <div class="info-item">
+                        <div class="info-icon">📍</div>
+                        <div class="info-details">
+                            <h4>Dirección</h4>
+                            <p>Av. Reforma #123, Colonia Centro<br>
+                            Puente de Ixtla, Morelos, México<br>
+                            C.P. 62665</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-icon">🚗</div>
+                        <div class="info-details">
+                            <h4>Cómo Llegar</h4>
+                            <p>A 2 cuadras del centro histórico, frente al parque municipal. Estacionamiento disponible.</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-icon">🗺️</div>
+                        <div class="info-details">
+                            <h4>Ver en Mapa</h4>
+                            <p><a href="#" onclick="alert('Función de Google Maps próximamente disponible'); return false;">Abrir en Google Maps →</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Schedule Section -->
+        <div class="section">
+            <h2 class="section-title">
+                🕐 Horarios de Atención
+            </h2>
+            <table class="schedule-table">
+                <tr>
+                    <td>Lunes a Jueves</td>
+                    <td>11:00 AM - 10:00 PM</td>
+                </tr>
+                <tr>
+                    <td>Viernes y Sábado</td>
+                    <td>11:00 AM - 11:00 PM</td>
+                </tr>
+                <tr>
+                    <td>Domingo</td>
+                    <td>11:00 AM - 9:00 PM</td>
+                </tr>
+                <tr>
+                    <td>Días Festivos</td>
+                    <td class="closed">Horario especial (consultar)</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="section">
+            <h2 class="section-title">
+                📞 Contacto
+            </h2>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-icon">📱</div>
+                    <h4>Teléfono</h4>
+                    <p><a href="tel:+527341234567">(734) 123-4567</a></p>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-icon">📧</div>
+                    <h4>Email</h4>
+                    <p><a href="mailto:info@losmaschiludos.mx">info@losmaschiludos.mx</a></p>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-icon">💬</div>
+                    <h4>WhatsApp</h4>
+                    <p><a href="https://wa.me/527341234567" target="_blank">Enviar mensaje</a></p>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-icon">🍕</div>
+                    <h4>Pedidos</h4>
+                    <p><a href="tel:+527341234568">(734) 123-4568</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Social Media Section -->
+        <div class="section">
+            <h2 class="section-title">
+                📱 Síguenos en Redes Sociales
+            </h2>
+            <p class="section-subtitle" style="text-align: center;">
+                Mantente al día con nuestras promociones, nuevos platillos y eventos especiales
+            </p>
+            
+            <div class="social-links">
+                <a href="https://facebook.com/losmaschiludos" target="_blank" class="social-btn facebook" title="Facebook">
+                    <span style="color: white;">f</span>
+                </a>
+
+                <a href="https://instagram.com/losmaschiludos" target="_blank" class="social-btn instagram" title="Instagram">
+                    <span style="color: white;">📷</span>
+                </a>
+
+                <a href="https://wa.me/527341234567" target="_blank" class="social-btn whatsapp" title="WhatsApp">
+                    <span style="color: white;">💬</span>
+                </a>
+
+                <a href="https://tiktok.com/@losmaschiludos" target="_blank" class="social-btn tiktok" title="TikTok">
+                    <span style="color: white;">🎵</span>
+                </a>
+
+                <a href="https://twitter.com/losmaschiludos" target="_blank" class="social-btn twitter" title="Twitter/X">
+                    <span style="color: white;">🐦</span>
+                </a>
+            </div>
+
+            <p style="text-align: center; margin-top: 30px; color: #666; font-size: 16px;">
+                <strong>@losmaschiludos</strong> en todas las plataformas
+            </p>
+        </div>
+
+        <!-- Final CTA Section -->
+        <div class="section" style="background: linear-gradient(135deg, #FDB515 0%, #F5A623 100%); text-align: center;">
+            <h2 style="font-size: 36px; font-weight: 900; color: #333; margin-bottom: 20px;">
+                ¿Listo para una experiencia chiludísima? 🌶️
+            </h2>
+            <p style="font-size: 18px; color: #333; margin-bottom: 30px;">
+                ¡Visítanos o haz tu pedido hoy mismo!
+            </p>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="menu.html" style="background: white; color: #333; padding: 15px 35px; border-radius: 30px; text-decoration: none; font-weight: 700; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);">
+                    Ver Menú
+                </a>
+                <a href="reservas.html" style="background: linear-gradient(135deg, #E94B3C 0%, #d43d2c 100%); color: white; padding: 15px 35px; border-radius: 30px; text-decoration: none; font-weight: 700; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(233, 75, 60, 0.3);">
+                    Reservar Mesa
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>🌶️ Los Más Chiludos - Sabor mexicano chiludísimo</p>
+        <p style="margin-top: 10px; font-size: 12px;">© 2025 Todos los derechos reservados</p>
+        <p style="margin-top: 15px; font-size: 12px;">
+            📍 Av. Reforma #123, Puente de Ixtla, Morelos | 📱 (734) 123-4567
+        </p>
+    </footer>
+
+    <script>
+        // Manejo de sesión
+        function checkSession() {
+            const token = localStorage.getItem('token');
+            const usuario = localStorage.getItem('usuario');
+            const sessionBtn = document.getElementById('sessionBtn');
+            
+            if (token && usuario) {
+                const user = JSON.parse(usuario);
+                sessionBtn.textContent = user.username;
+                sessionBtn.classList.add('logged-in');
+                sessionBtn.title = 'Cerrar sesión';
+            } else {
+                sessionBtn.textContent = 'Iniciar Sesión';
+                sessionBtn.classList.remove('logged-in');
+                sessionBtn.title = 'Iniciar sesión';
+            }
+        }
+
+        function handleSession() {
+            const token = localStorage.getItem('token');
+            
+            if (token) {
+                // Cerrar sesión
+                if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('usuario');
+                    alert('Sesión cerrada exitosamente');
+                    window.location.href = 'inicio.html';
+                }
+            } else {
+                // Ir a login
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Verificar sesión al cargar la página
+        checkSession();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrador - Los Más Chiludos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #333 0%, #1a1a1a 100%);
+            padding: 20px 50px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 5px solid #E94B3C;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-box {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-img {
+            font-size: 32px;
+        }
+
+        .logo-name {
+            font-size: 18px;
+            font-weight: 900;
+            color: #333;
+        }
+
+        .staff-info {
+            color: white;
+        }
+
+        .staff-role {
+            background: #E94B3C;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        .staff-name {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .btn-logout {
+            background: #E94B3C;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background: #d43d2c;
+            transform: translateY(-2px);
+        }
+
+        /* Dashboard Container */
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 40px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 900;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #e0e0e0;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            background: transparent;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -3px;
+            transition: all 0.3s ease;
+        }
+
+        .tab:hover {
+            color: #333;
+        }
+
+        .tab.active {
+            color: #E94B3C;
+            border-bottom-color: #E94B3C;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Section */
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 900;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Form */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: #f9f9f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #E94B3C;
+            background: white;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .generated-field {
+            background: #e8f5e9;
+            border-color: #4caf50;
+            font-weight: 700;
+        }
+
+        .info-text {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #E94B3C 0%, #d43d2c 100%);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(233, 75, 60, 0.4);
+        }
+
+        .btn-secondary {
+            background: #FDB515;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #F5A623;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .data-table thead {
+            background: #f9f9f9;
+        }
+
+        .data-table th {
+            padding: 15px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 700;
+            color: #666;
+            text-transform: uppercase;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .data-table td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .data-table tr:hover {
+            background: #f9f9f9;
+        }
+
+        .badge {
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .badge-admin {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .badge-mesero {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: #f9f9f9;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border-color: #E94B3C;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .card-content {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .card-price {
+            font-size: 20px;
+            font-weight: 900;
+            color: #FDB515;
+            margin: 10px 0;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        .stat-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 900;
+            color: #E94B3C;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 60px;
+        }
+
+        @media (max-width: 968px) {
+            .dashboard-container {
+                padding: 0 20px;
+            }
+
+            .header {
+                padding: 15px 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Verificación de sesión y rol -->
+    <script>
+        (function() {
+            const token = localStorage.getItem('token');
+            const usuario = localStorage.getItem('usuario');
+            
+            if (!token || !usuario) {
+                alert('⚠️ Debes iniciar sesión como administrador');
+                window.location.href = 'login_personal.html';
+                return;
+            }
+
+            const user = JSON.parse(usuario);
+            if (user.rol !== 'admin') {
+                alert('⚠️ Acceso denegado. Esta área es solo para administradores');
+                window.location.href = 'login_personal.html';
+                return;
+            }
+        })();
+    </script>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-section">
+            <div class="logo-box">
+                <div class="logo-img">🌶️</div>
+                <span class="logo-name">Los Más Chiludos</span>
+            </div>
+            <div class="staff-info">
+                <div class="staff-role">👨‍💼 ADMINISTRADOR</div>
+                <div class="staff-name">Admin Principal</div>
+            </div>
+        </div>
+
+        <div class="user-section">
+            <button class="btn-logout" onclick="logout()">
+                🚪 Cerrar Sesión
+            </button>
+        </div>
+    </header>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        
+        <h1 class="page-title">⚙️ Panel de Administración</h1>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-number" id="totalEmployees">0</div>
+                <div class="stat-label">Total Empleados</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">🍽️</div>
+                <div class="stat-number" id="totalProducts">0</div>
+                <div class="stat-label">Productos en Menú</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">🪑</div>
+                <div class="stat-number" id="totalTables">0</div>
+                <div class="stat-label">Mesas Disponibles</div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="openTab(event, 'employees')">
+                👥 Empleados
+            </button>
+            <button class="tab" onclick="openTab(event, 'menu')">
+                🍽️ Menú
+            </button>
+            <button class="tab" onclick="openTab(event, 'tables')">
+                🪑 Mesas
+            </button>
+        </div>
+
+        <!-- Employees Tab -->
+        <div id="employees" class="tab-content active">
+            <!-- Create Employee -->
+            <div class="section">
+                <h2 class="section-title">➕ Crear Nuevo Empleado</h2>
+                
+                <form id="createEmployeeForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="employeeName">Nombre Completo *</label>
+                            <input 
+                                type="text" 
+                                id="employeeName" 
+                                placeholder="Juan Pérez García"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="employeePosition">Puesto *</label>
+                            <select id="employeePosition" required>
+                                <option value="">Selecciona el puesto</option>
+                                <option value="admin">👨‍💼 Administrador</option>
+                                <option value="mesero">🍽️ Mesero</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="employeeId">ID de Empleado (Generado)</label>
+                            <input 
+                                type="text" 
+                                id="employeeId" 
+                                class="generated-field"
+                                readonly
+                                placeholder="Se generará automáticamente"
+                            >
+                            <p class="info-text">🔄 Se genera automáticamente al crear</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="employeePassword">Contraseña (Generada)</label>
+                            <input 
+                                type="text" 
+                                id="employeePassword" 
+                                class="generated-field"
+                                readonly
+                                placeholder="Se generará automáticamente"
+                            >
+                            <p class="info-text">🔒 Se genera automáticamente al crear</p>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary">
+                        ➕ Crear Empleado
+                    </button>
+                </form>
+            </div>
+
+            <div id="empleadosLista" class="cards-grid">
+                <!-- Los empleados se cargarán automáticamente aquí -->
+            </div>
+        </div>
+
+        <!-- Menu Tab -->
+        <div id="menu" class="tab-content">
+            <!-- Add Product -->
+            <div class="section">
+                <h2 class="section-title">➕ Agregar Producto al Menú</h2>
+                
+                <form id="createProductForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="productName">Nombre del Producto *</label>
+                            <input 
+                                type="text" 
+                                id="productName" 
+                                placeholder="Tacos de Asada"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="productCategory">Categoría *</label>
+                            <select id="productCategory" required>
+                                <option value="">Selecciona categoría</option>
+                                <option value="tacos">🌮 Tacos</option>
+                                <option value="tortas">🥖 Tortas</option>
+                                <option value="antojitos">🍴 Antojitos</option>
+                                <option value="bebidas">🥤 Bebidas</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="productPrice">Precio (MXN) *</label>
+                            <input 
+                                type="number" 
+                                id="productPrice" 
+                                placeholder="35"
+                                min="0"
+                                step="1"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="productSpicy">Nivel Picante</label>
+                            <select id="productSpicy">
+                                <option value="0">Sin picante</option>
+                                <option value="1">🌶️ Bajo</option>
+                                <option value="2">🌶️🌶️ Medio</option>
+                                <option value="3">🌶️🌶️🌶️ Alto</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productDescription">Descripción</label>
+                        <textarea 
+                            id="productDescription" 
+                            placeholder="Descripción del producto..."
+                        ></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary">
+                        ➕ Agregar Producto
+                    </button>
+                </form>
+            </div>
+
+            <!-- Product List -->
+            <div id="productosLista" class="cards-grid">
+                <!-- Los productos se cargarán automáticamente aquí -->
+            </div>
+        </div>
+
+        <!-- Tables Tab -->
+        <div id="tables" class="tab-content">
+            <!-- Add Table -->
+            <div class="section">
+                <h2 class="section-title">➕ Agregar Nueva Mesa</h2>
+                
+                <form id="createTableForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="tableNumber">Número de Mesa *</label>
+                            <input 
+                                type="number" 
+                                id="tableNumber" 
+                                placeholder="13"
+                                min="1"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tableCapacity">Capacidad (personas) *</label>
+                            <select id="tableCapacity" required>
+                                <option value="">Selecciona capacidad</option>
+                                <option value="2">2 personas</option>
+                                <option value="4">4 personas</option>
+                                <option value="6">6 personas</option>
+                                <option value="8">8 personas</option>
+                                <option value="10">10 personas</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tableLocation">Ubicación</label>
+                            <select id="tableLocation">
+                                <option value="interior">Interior</option>
+                                <option value="terraza">Terraza</option>
+                                <option value="ventana">Junto a ventana</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary">
+                        ➕ Agregar Mesa
+                    </button>
+                </form>
+            </div>
+
+            <!-- Tables List -->
+            <div id="mesasLista" class="cards-grid">
+                <!-- Las mesas se cargarán automáticamente aquí -->
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>🌶️ Los Más Chiludos - Sistema de Gestión Administrativa</p>
+    </footer>
+
+    <!-- Script de conexión con el backend -->
+    <script src="panel_admin.js"></script>
+            
+    <script>
+        // Tab functionality
+        function openTab(evt, tabName) {
+            const tabContents = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove('active');
+            }
+
+            const tabs = document.getElementsByClassName('tab');
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+
+            document.getElementById(tabName).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>

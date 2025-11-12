@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú - Los Más Chiludos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 15px 50px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-box {
+            background: linear-gradient(135deg, #FDB515 0%, #F5A623 100%);
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-img {
+            width: 45px;
+            height: 45px;
+            font-size: 36px;
+        }
+
+        .logo-text-box {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
+
+        .logo-name {
+            font-size: 20px;
+            font-weight: 900;
+            color: #333;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            font-size: 16px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #E94B3C;
+        }
+
+        .nav-links a.active {
+            color: #E94B3C;
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #E94B3C;
+        }
+
+        .btn-reservar {
+            background: linear-gradient(135deg, #E94B3C 0%, #d43d2c 100%);
+            color: white !important;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(233, 75, 60, 0.3);
+        }
+
+        .btn-reservar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(233, 75, 60, 0.4);
+        }
+
+        .cart-button {
+            position: relative;
+            background: white;
+            border: 2px solid #FDB515;
+            color: #333;
+            padding: 10px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+        }
+
+        .cart-button:hover {
+            background: #FDB515;
+            transform: scale(1.1);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #E94B3C;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            border: 2px solid white;
+        }
+
+        .btn-session {
+            background: transparent;
+            border: 2px solid #FDB515;
+            color: #FDB515;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-session:hover {
+            background: #FDB515;
+            color: white;
+        }
+
+        .btn-session.logged-in {
+            border-color: #E94B3C;
+            color: #E94B3C;
+        }
+
+        .btn-session.logged-in:hover {
+            background: #E94B3C;
+            color: white;
+        }
+
+        .btn-add-cart {
+            width: 100%;
+            background: linear-gradient(135deg, #FDB515 0%, #F5A623 100%);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 10px;
+        }
+
+        .btn-add-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(253, 181, 21, 0.4);
+        }
+
+        .btn-add-cart:active {
+            transform: scale(0.98);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #FDB515 0%, #F5A623 100%);
+            padding: 60px 40px;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .hero .subtitle {
+            font-size: 24px;
+            font-weight: 700;
+            color: #E94B3C;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            opacity: 0.95;
+        }
+
+        /* Menu Container */
+        .menu-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 40px;
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: 900;
+            color: #333;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            border-bottom: 4px solid #E94B3C;
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .menu-section {
+            margin-bottom: 60px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -10px;
+            right: 15px;
+            background: #E94B3C;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 12px;
+        }
+
+        .item-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+            flex: 1;
+        }
+
+        .item-price {
+            font-size: 22px;
+            font-weight: 900;
+            color: #FDB515;
+            margin-left: 15px;
+        }
+
+        .item-description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .spicy-level {
+            display: flex;
+            gap: 3px;
+            margin-top: 10px;
+        }
+
+        .chile-indicator {
+            color: #E94B3C;
+            font-size: 18px;
+        }
+
+        .chile-indicator.inactive {
+            color: #ddd;
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 60px;
+        }
+
+        .footer p {
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+            }
+
+            .logo-box {
+                padding: 10px 15px;
+            }
+
+            .logo-img {
+                width: 35px;
+                height: 35px;
+                font-size: 28px;
+            }
+
+            .logo-name {
+                font-size: 16px;
+            }
+
+            .nav-links {
+                gap: 20px;
+            }
+
+            .nav-links a {
+                font-size: 14px;
+            }
+
+            .btn-reservar {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .menu-container {
+                padding: 30px 20px;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Verificación de sesión requerida -->
+    <script>
+        (function() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('⚠️ Debes iniciar sesión para ver el menú');
+                window.location.href = 'login.html';
+            }
+        })();
+    </script>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo-box">
+                <div class="logo-img">🌶️</div>
+                <div class="logo-text-box">
+                    <span class="logo-name">Los Más Chiludos</span>
+                </div>
+            </div>
+        </div>
+        <nav class="nav-links">
+            <a href="inicio.html">Inicio</a>
+            <a href="menu.html" class="active">Menú</a>
+            <a href="nosotros.html">Nosotros</a>
+            <button class="cart-button" onclick="window.location.href='carrito.html'">
+                🛒
+                <span class="cart-count" id="cartCount">0</span>
+            </button>
+            <button class="btn-session" id="sessionBtn" onclick="handleSession()">Iniciar Sesión</button>
+            <a href="reservas.html" class="btn-reservar">Reservar</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Nuestro Menú</h1>
+        <p class="subtitle">chiludísimo</p>
+        <p>Tacos, tortas y antojitos con ese toque 🌶️ que nos hace únicos</p>
+    </section>
+
+    <!-- Menu Container -->
+    <div class="menu-container">
+        
+        <!-- Tacos Section -->
+        <div class="menu-section">
+            <h2 class="section-title">🌮 Tacos</h2>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <span class="popular-badge">⭐ Popular</span>
+                    <div class="item-header">
+                        <h3 class="item-name">Tacos de Asada</h3>
+                        <span class="item-price">$35 MXN</span>
+                    </div>
+                    <p class="item-description">Carne suave, cebolla y cilantro.</p>
+                    <div class="spicy-level">
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator inactive">🌶️</span>
+                        <span class="chile-indicator inactive">🌶️</span>
+                    </div>
+                    <button class="btn-add-cart" onclick="addToCart('Tacos de Asada', 35)">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name">Tacos al Pastor</h3>
+                        <span class="item-price">$38 MXN</span>
+                    </div>
+                    <p class="item-description">Con piña asada, cilantro y cebolla morada.</p>
+                    <div class="spicy-level">
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator inactive">🌶️</span>
+                    </div>
+                    <button class="btn-add-cart" onclick="addToCart('Tacos al Pastor', 38)">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name">Tacos de Cochinita</h3>
+                        <span class="item-price">$42 MXN</span>
+                    </div>
+                    <p class="item-description">Marinada en achiote con cebolla morada encurtida.</p>
+                    <div class="spicy-level">
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator inactive">🌶️</span>
+                    </div>
+                    <button class="btn-add-cart" onclick="addToCart('Tacos de Cochinita', 42)">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name">Tacos de Barbacoa</h3>
+                        <span class="item-price">$45 MXN</span>
+                    </div>
+                    <p class="item-description">Carne suave cocida a fuego lento con consomé.</p>
+                    <div class="spicy-level">
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator inactive">🌶️</span>
+                        <span class="chile-indicator inactive">🌶️</span>
+                    </div>
+                    <button class="btn-add-cart" onclick="addToCart('Tacos de Barbacoa', 45)">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name">Tacos Gringos</h3>
+                        <span class="item-price">$40 MXN</span>
+                    </div>
+                    <p class="item-description">Con queso fundido, pico de gallo y guacamole.</p>
+                    <div class="spicy-level">
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator inactive">🌶️</span>
+                        <span class="chile-indicator inactive">🌶️</span>
+                    </div>
+                    <button class="btn-add-cart" onclick="addToCart('Tacos Gringos', 40)">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name">Tacos Chiludos Especiales</h3>
+                        <span class="item-price">$50 MXN</span>
+                    </div>
+                    <p class="item-description">Con chile habanero, aguacate y queso fundido.</p>
+                    <div class="spicy-level">
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator">🌶️</span>
+                    </div>
+                    <button class="btn-add-cart" onclick="addToCart('Tacos Chiludos Especiales', 50)">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tortas Section -->
+        <div class="menu-section">
+            <h2 class="section-title">🥖 Tortas</h2>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <span class="popular-badge">⭐ Popular</span>
+                    <div class="item-header">
+                        <h3 class="item-name">Torta Chiluda</h3>
+                        <span class="item-price">$85 MXN</span>
+                    </div>
+                    <p class="item-description">Con salsa de la casa (nivel chiludo).</p>
+                    <div class="spicy-level">
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator">🌶️</span>
+                    </div>
+                    <button class="btn-add-cart" onclick="addToCart('Torta Chiluda', 85)">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name">Torta Cubana</h3>
+                        <span class="item-price">$95 MXN</span>
+                    </div>
+                    <p class="item-description">Jamón, salchicha, milanesa, huevo, queso y aguacate.</p>
+                    <div class="spicy-level">
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator inactive">🌶️</span>
+                    </div>
+                    <button class="btn-add-cart" onclick="addToCart('Torta Cubana', 95)">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name">Torta de Pierna</h3>
+                        <span class="item-price">$75 MXN</span>
+                    </div>
+                    <p class="item-description">Con aguacate, jitomate, cebolla y jalapeños.</p>
+                    <div class="spicy-level">
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator inactive">🌶️</span>
+                    </div>
+                    <button class="btn-add-cart" onclick="addToCart('Torta de Pierna', 75)">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name">Torta de Milanesa</h3>
+                        <span class="item-price">$80 MXN</span>
+                    </div>
+                    <p class="item-description">Empanizada crujiente con frijoles y aguacate.</p>
+                    <div class="spicy-level">
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator inactive">🌶️</span>
+                        <span class="chile-indicator inactive">🌶️</span>
+                    </div>
+                    <button class="btn-add-cart" onclick="addToCart('Torta de Milanesa', 80)">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Antojitos Section -->
+        <div class="menu-section">
+            <h2 class="section-title">🍴 Antojitos</h2>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <span class="popular-badge">⭐ Popular</span>
+                    <div class="item-header">
+                        <h3 class="item-name">Gringas al Pastor</h3>
+                        <span class="item-price">$60 MXN</span>
+                    </div>
+                    <p class="item-description">Queso fundido y piña asada.</p>
+                    <div class="spicy-level">
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator inactive">🌶️</span>
+                    </div>
+                    <button class="btn-add-cart" onclick="addToCart('Gringas al Pastor', 60)">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <span class="popular-badge">⭐ Popular</span>
+                    <div class="item-header">
+                        <h3 class="item-name">Quesabirria</h3>
+                        <span class="item-price">$65 MXN</span>
+                    </div>
+                    <p class="item-description">Con consomé para chopear.</p>
+                    <div class="spicy-level">
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator inactive">🌶️</span>
+                    </div>
+                    <button class="btn-add-cart" onclick="addToCart('Quesabirria', 65)">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name">Quesadillas Mixtas</h3>
+                        <span class="item-price">$55 MXN</span>
+                    </div>
+                    <p class="item-description">Flor de calabaza, huitlacoche y champiñones.</p>
+                    <div class="spicy-level">
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator inactive">🌶️</span>
+                        <span class="chile-indicator inactive">🌶️</span>
+                    </div>
+                    <button class="btn-add-cart" onclick="addToCart('Quesadillas Mixtas', 55)">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name">Alambres Chiludos</h3>
+                        <span class="item-price">$120 MXN</span>
+                    </div>
+                    <p class="item-description">Carne, tocino, pimientos y queso fundido.</p>
+                    <div class="spicy-level">
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator">🌶️</span>
+                    </div>
+                    <button class="btn-add-cart" onclick="addToCart('Alambres Chiludos', 120)">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name">Sopes de Chorizo</h3>
+                        <span class="item-price">$45 MXN</span>
+                    </div>
+                    <p class="item-description">Con frijoles, lechuga, crema y queso.</p>
+                    <div class="spicy-level">
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator inactive">🌶️</span>
+                    </div>
+                    <button class="btn-add-cart" onclick="addToCart('Sopes de Chorizo', 45)">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name">Huaraches de Bistec</h3>
+                        <span class="item-price">$70 MXN</span>
+                    </div>
+                    <p class="item-description">Masa gruesa con frijoles, nopales y salsa verde.</p>
+                    <div class="spicy-level">
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator inactive">🌶️</span>
+                    </div>
+                    <button class="btn-add-cart" onclick="addToCart('Huaraches de Bistec', 70)">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bebidas Section -->
+        <div class="menu-section">
+            <h2 class="section-title">🥤 Bebidas</h2>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name">Aguas Frescas</h3>
+                        <span class="item-price">$25 MXN</span>
+                    </div>
+                    <p class="item-description">Jamaica, horchata, tamarindo o limón.</p>
+                    <button class="btn-add-cart" onclick="addToCart('Aguas Frescas', 25)">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name">Refrescos</h3>
+                        <span class="item-price">$20 MXN</span>
+                    </div>
+                    <p class="item-description">Coca-Cola, Sprite, Fanta y más.</p>
+                    <button class="btn-add-cart" onclick="addToCart('Refrescos', 20)">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name">Cerveza Nacional</h3>
+                        <span class="item-price">$35 MXN</span>
+                    </div>
+                    <p class="item-description">Corona, Modelo, Victoria, Tecate.</p>
+                    <button class="btn-add-cart" onclick="addToCart('Cerveza Nacional', 35)">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name">Michelada Chiluda</h3>
+                        <span class="item-price">$55 MXN</span>
+                    </div>
+                    <p class="item-description">Con chamoy y chile piquín en el borde.</p>
+                    <div class="spicy-level">
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator">🌶️</span>
+                        <span class="chile-indicator inactive">🌶️</span>
+                    </div>
+                    <button class="btn-add-cart" onclick="addToCart('Michelada Chiluda', 55)">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>🌶️ Los Más Chiludos - Sabor mexicano chiludísimo</p>
+        <p style="margin-top: 10px; font-size: 12px;">© 2025 Todos los derechos reservados</p>
+    </footer>
+    <script src="menu.js"></script>
+    
+
+</body>
+</html>

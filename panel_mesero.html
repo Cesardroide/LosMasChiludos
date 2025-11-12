@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Mesero - Los Más Chiludos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #333 0%, #1a1a1a 100%);
+            padding: 20px 50px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 5px solid #FDB515;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-box {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-img {
+            font-size: 32px;
+        }
+
+        .logo-name {
+            font-size: 18px;
+            font-weight: 900;
+            color: #333;
+        }
+
+        .staff-info {
+            color: white;
+        }
+
+        .staff-role {
+            background: #FDB515;
+            color: #333;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        .staff-name {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .time-display {
+            color: white;
+            text-align: right;
+        }
+
+        .time-display .date {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .time-display .time {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .btn-logout {
+            background: #E94B3C;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background: #d43d2c;
+            transform: translateY(-2px);
+        }
+
+        /* Dashboard Container */
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 40px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 900;
+            color: #333;
+        }
+
+        .stats-summary {
+            display: flex;
+            gap: 20px;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 900;
+            color: #FDB515;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Section */
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #f0f0f0;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 900;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Orders Table */
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .orders-table thead {
+            background: #f9f9f9;
+        }
+
+        .orders-table th {
+            padding: 15px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 700;
+            color: #666;
+            text-transform: uppercase;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .orders-table td {
+            padding: 20px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .orders-table tr:hover {
+            background: #f9f9f9;
+        }
+
+        .order-number {
+            font-weight: 700;
+            color: #FDB515;
+            font-size: 16px;
+        }
+
+        .table-badge {
+            background: #e0e0e0;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-badge {
+            padding: 6px 15px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-block;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-preparing {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .status-ready {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .status-delivered {
+            background: #e0e0e0;
+            color: #666;
+        }
+
+        .status-confirmed {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .status-active {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .status-completed {
+            background: #e0e0e0;
+            color: #666;
+        }
+
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .items-list {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .price {
+            font-weight: 700;
+            color: #FDB515;
+            font-size: 16px;
+        }
+
+        .btn-details {
+            background: #FDB515;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-details:hover {
+            background: #F5A623;
+            transform: translateY(-2px);
+        }
+
+        .btn-finish {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 5px;
+        }
+
+        .btn-finish:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-free-table {
+            background: #E94B3C;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-free-table:hover {
+            background: #d43d2c;
+            transform: translateY(-2px);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .time-info {
+            color: #999;
+            font-size: 12px;
+        }
+
+        /* Reservations */
+        .reservations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .reservation-card {
+            background: #f9f9f9;
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            border: 2px solid transparent;
+        }
+
+        .reservation-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border-color: #FDB515;
+        }
+
+        .reservation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+
+        .reservation-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .reservation-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .info-icon {
+            font-size: 18px;
+            width: 25px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            font-size: 20px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 60px;
+        }
+
+        @media (max-width: 968px) {
+            .dashboard-container {
+                padding: 0 20px;
+            }
+
+            .header {
+                padding: 15px 20px;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                gap: 20px;
+                align-items: flex-start;
+            }
+
+            .stats-summary {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .orders-table {
+                font-size: 12px;
+            }
+
+            .orders-table th,
+            .orders-table td {
+                padding: 10px 8px;
+            }
+
+            .reservations-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Verificación de sesión y rol -->
+    <script>
+        (function() {
+            const token = localStorage.getItem('token');
+            const usuario = localStorage.getItem('usuario');
+            
+            if (!token || !usuario) {
+                alert('⚠️ Debes iniciar sesión como mesero');
+                window.location.href = 'login_personal.html';
+                return;
+            }
+
+            const user = JSON.parse(usuario);
+            if (user.rol !== 'mesero') {
+                alert('⚠️ Acceso denegado. Esta área es solo para meseros');
+                window.location.href = 'login_personal.html';
+                return;
+            }
+        })();
+    </script>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-section">
+            <div class="logo-box">
+                <div class="logo-img">🌶️</div>
+                <span class="logo-name">Los Más Chiludos</span>
+            </div>
+            <div class="staff-info">
+                <div class="staff-role">🍽️ MESERO</div>
+                <div class="staff-name">Juan Pérez</div>
+            </div>
+        </div>
+
+        <div class="user-section">
+            <div class="time-display">
+                <div class="date" id="currentDate">Domingo, 26 de Octubre 2025</div>
+                <div class="time" id="currentTime">14:30:45</div>
+            </div>
+            <button class="btn-logout" onclick="logout()">
+                🚪 Cerrar Sesión
+            </button>
+        </div>
+    </header>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <h1 class="page-title">📋 Panel de Control</h1>
+            <div class="stats-summary">
+                <div class="stat-box">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">Pedidos Activos</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Reservaciones Hoy</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Mesas Ocupadas</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders Section -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    🍽️ Pedidos del Día
+                </h2>
+            </div>
+
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>Pedido #</th>
+                        <th>Mesa</th>
+                        <th>Productos</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                        <th>Hora</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="order-number">#001</span></td>
+                        <td><span class="table-badge">Mesa 5</span></td>
+                        <td>
+                            <div class="items-list">
+                                • 3x Tacos de Asada<br>
+                                • 2x Agua de Jamaica<br>
+                                • 1x Quesabirria
+                            </div>
+                        </td>
+                        <td><span class="price">$295 MXN</span></td>
+                        <td><span class="status-badge status-preparing">En Preparación</span></td>
+                        <td><div class="time-info">14:15</div></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-details" onclick="viewOrderDetails('001')">Ver Detalles</button>
+                                <button class="btn-finish" onclick="finishOrder('001', 'Mesa 5')">✓ Finalizar</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="order-number">#002</span></td>
+                        <td><span class="table-badge">Mesa 3</span></td>
+                        <td>
+                            <div class="items-list">
+                                • 2x Torta Cubana<br>
+                                • 2x Refresco
+                            </div>
+                        </td>
+                        <td><span class="price">$230 MXN</span></td>
+                        <td><span class="status-badge status-ready">Listo</span></td>
+                        <td><div class="time-info">14:20</div></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-details" onclick="viewOrderDetails('002')">Ver Detalles</button>
+                                <button class="btn-finish" onclick="finishOrder('002', 'Mesa 3')">✓ Finalizar</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="order-number">#003</span></td>
+                        <td><span class="table-badge">Mesa 7</span></td>
+                        <td>
+                            <div class="items-list">
+                                • 4x Tacos al Pastor<br>
+                                • 1x Gringas al Pastor<br>
+                                • 3x Agua de Horchata
+                            </div>
+                        </td>
+                        <td><span class="price">$387 MXN</span></td>
+                        <td><span class="status-badge status-pending">Pendiente</span></td>
+                        <td><div class="time-info">14:25</div></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-details" onclick="viewOrderDetails('003')">Ver Detalles</button>
+                                <button class="btn-finish" onclick="finishOrder('003', 'Mesa 7')">✓ Finalizar</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="order-number">#004</span></td>
+                        <td><span class="table-badge">Mesa 1</span></td>
+                        <td>
+                            <div class="items-list">
+                                • 1x Torta Chiluda<br>
+                                • 1x Cerveza
+                            </div>
+                        </td>
+                        <td><span class="price">$120 MXN</span></td>
+                        <td><span class="status-badge status-ready">Listo</span></td>
+                        <td><div class="time-info">14:10</div></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-details" onclick="viewOrderDetails('004')">Ver Detalles</button>
+                                <button class="btn-finish" onclick="finishOrder('004', 'Mesa 1')">✓ Finalizar</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="order-number">#005</span></td>
+                        <td><span class="table-badge">Mesa 10</span></td>
+                        <td>
+                            <div class="items-list">
+                                • 5x Tacos de Asada<br>
+                                • 2x Tacos de Barbacoa<br>
+                                • 4x Refresco<br>
+                                • 1x Michelada Chiluda
+                            </div>
+                        </td>
+                        <td><span class="price">$545 MXN</span></td>
+                        <td><span class="status-badge status-preparing">En Preparación</span></td>
+                        <td><div class="time-info">14:28</div></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-details" onclick="viewOrderDetails('005')">Ver Detalles</button>
+                                <button class="btn-finish" onclick="finishOrder('005', 'Mesa 10')">✓ Finalizar</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="order-number">#006</span></td>
+                        <td><span class="table-badge">Mesa 4</span></td>
+                        <td>
+                            <div class="items-list">
+                                • 3x Quesadillas Mixtas<br>
+                                • 2x Agua de Tamarindo
+                            </div>
+                        </td>
+                        <td><span class="price">$215 MXN</span></td>
+                        <td><span class="status-badge status-delivered">Entregado</span></td>
+                        <td><div class="time-info">13:45</div></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-details" onclick="viewOrderDetails('006')">Ver Detalles</button>
+                                <button class="btn-finish" onclick="finishOrder('006', 'Mesa 4')">✓ Finalizar</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="order-number">#007</span></td>
+                        <td><span class="table-badge">Mesa 8</span></td>
+                        <td>
+                            <div class="items-list">
+                                • 2x Alambres Chiludos<br>
+                                • 2x Cerveza Nacional
+                            </div>
+                        </td>
+                        <td><span class="price">$310 MXN</span></td>
+                        <td><span class="status-badge status-preparing">En Preparación</span></td>
+                        <td><div class="time-info">14:30</div></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-details" onclick="viewOrderDetails('007')">Ver Detalles</button>
+                                <button class="btn-finish" onclick="finishOrder('007', 'Mesa 8')">✓ Finalizar</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="order-number">#008</span></td>
+                        <td><span class="table-badge">Mesa 11</span></td>
+                        <td>
+                            <div class="items-list">
+                                • 6x Tacos Chiludos Especiales<br>
+                                • 3x Agua de Limón
+                            </div>
+                        </td>
+                        <td><span class="price">$375 MXN</span></td>
+                        <td><span class="status-badge status-pending">Pendiente</span></td>
+                        <td><div class="time-info">14:32</div></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-details" onclick="viewOrderDetails('008')">Ver Detalles</button>
+                                <button class="btn-finish" onclick="finishOrder('008', 'Mesa 11')">✓ Finalizar</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Reservations Section -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    📅 Reservaciones del Día
+                </h2>
+            </div>
+
+            <div class="reservations-grid">
+                <!-- Reservación 1 -->
+                <div class="reservation-card">
+                    <div class="reservation-header">
+                        <div class="reservation-name">María García López</div>
+                        <span class="status-badge status-confirmed">Confirmada</span>
+                    </div>
+                    <div class="reservation-info">
+                        <div class="info-row">
+                            <span class="info-icon">🪑</span>
+                            <span><strong>Mesa 6</strong> (6 personas)</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-icon">📅</span>
+                            <span>Hoy - 26/10/2025</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-icon">🕐</span>
+                            <span>15:00 hrs (En 30 min)</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-icon">📱</span>
+                            <span>(734) 555-1234</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-icon">💬</span>
+                            <span>Cumpleaños - Necesitan silla para bebé</span>
+                        </div>
+                    </div>
+                    <button class="btn-details" style="width: 100%; margin-top: 15px;" onclick="viewReservationDetails('R001')">
+                        Ver Detalles Completos
+                    </button>
+                    <button class="btn-free-table" onclick="freeTable('Mesa 6', 'María García López')">
+                        🔓 Liberar Mesa
+                    </button>
+                </div>
+
+                <!-- Reservación 2 -->
+                <div class="reservation-card">
+                    <div class="reservation-header">
+                        <div class="reservation-name">Carlos Mendoza</div>
+                        <span class="status-badge status-active">En Curso</span>
+                    </div>
+                    <div class="reservation-info">
+                        <div class="info-row">
+                            <span class="info-icon">🪑</span>
+                            <span><strong>Mesa 12</strong> (10 personas)</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-icon">📅</span>
+                            <span>Hoy - 26/10/2025</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-icon">🕐</span>
+                            <span>14:00 hrs (Llegó a tiempo)</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-icon">📱</span>
+                            <span>(734) 555-5678</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-icon">💬</span>
+                            <span>Reunión familiar</span>
+                        </div>
+                    </div>
+                    <button class="btn-details" style="width: 100%; margin-top: 15px;" onclick="viewReservationDetails('R002')">
+                        Ver Detalles Completos
+                    </button>
+                    <button class="btn-free-table" onclick="freeTable('Mesa 12', 'Carlos Mendoza')">
+                        🔓 Liberar Mesa
+                    </button>
+                </div>
+
+                <!-- Reservación 3 -->
+                <div class="reservation-card">
+                    <div class="reservation-header">
+                        <div class="reservation-name">Ana Rodríguez</div>
+                        <span class="status-badge status-confirmed">Confirmada</span>
+                    </div>
+                    <div class="reservation-info">
+                        <div class="info-row">
+                            <span class="info-icon">🪑</span>
+                            <span><strong>Mesa 3</strong> (4 personas)</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-icon">📅</span>
+                            <span>Hoy - 26/10/2025</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-icon">🕐</span>
+                            <span>18:00 hrs</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-icon">📱</span>
+                            <span>(734) 555-9012</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-icon">💬</span>
+                            <span>Sin comentarios</span>
+                        </div>
+                    </div>
+                    <button class="btn-details" style="width: 100%; margin-top: 15px;" onclick="viewReservationDetails('R003')">
+                        Ver Detalles Completos
+                    </button>
+                    <button class="btn-free-table" onclick="freeTable('Mesa 3', 'Ana Rodríguez')">
+                        🔓 Liberar Mesa
+                    </button>
+                </div>
+
+                <!-- Reservación 4 -->
+                <div class="reservation-card">
+                    <div class="reservation-header">
+                        <div class="reservation-name">Roberto Sánchez</div>
+                        <span class="status-badge status-completed">Completada</span>
+                    </div>
+                    <div class="reservation-info">
+                        <div class="info-row">
+                            <span class="info-icon">🪑</span>
+                            <span><strong>Mesa 7</strong> (4 personas)</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-icon">📅</span>
+                            <span>Hoy - 26/10/2025</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-icon">🕐</span>
+                            <span>13:00 hrs (Finalizada)</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-icon">📱</span>
+                            <span>(734) 555-3456</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-icon">💬</span>
+                            <span>Cita de negocios</span>
+                        </div>
+                    </div>
+                    <button class="btn-details" style="width: 100%; margin-top: 15px;" onclick="viewReservationDetails('R004')">
+                        Ver Detalles Completos
+                    </button>
+                    <button class="btn-free-table" onclick="freeTable('Mesa 7', 'Roberto Sánchez')">
+                        🔓 Liberar Mesa
+                    </button>
+                </div>
+
+                <!-- Reservación 5 -->
+                <div class="reservation-card">
+                    <div class="reservation-header">
+                        <div class="reservation-name">Laura Martínez</div>
+                        <span class="status-badge status-confirmed">Confirmada</span>
+                    </div>
+                    <div class="reservation-info">
+                        <div class="info-row">
+                            <span class="info-icon">🪑</span>
+                            <span><strong>Mesa 8</strong> (2 personas)</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-icon">📅</span>
+                            <span>Hoy - 26/10/2025</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-icon">🕐</span>
+                            <span>20:00 hrs</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-icon">📱</span>
+                            <span>(734) 555-7890</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-icon">💬</span>
+                            <span>Aniversario - Mesa junto a ventana</span>
+                        </div>
+                    </div>
+                    <button class="btn-details" style="width: 100%; margin-top: 15px;" onclick="viewReservationDetails('R005')">
+                        Ver Detalles Completos
+                    </button>
+                    <button class="btn-free-table" onclick="freeTable('Mesa 8', 'Laura Martínez')">
+                        🔓 Liberar Mesa
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>🌶️ Los Más Chiludos - Sistema de Gestión para Personal</p>
+    </footer>
+    <script src="panel_mesero.js"></script>
+</body>
+</html>

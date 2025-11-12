@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Los Más Chiludos - Restaurante</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 15px 50px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-box {
+            background: linear-gradient(135deg, #FDB515 0%, #F5A623 100%);
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-img {
+            width: 45px;
+            height: 45px;
+            font-size: 36px;
+        }
+
+        .logo-name {
+            font-size: 20px;
+            font-weight: 900;
+            color: #333;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            font-size: 16px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #E94B3C;
+        }
+
+        .nav-links a.active {
+            color: #E94B3C;
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #E94B3C;
+        }
+
+        .btn-reservar {
+            background: linear-gradient(135deg, #E94B3C 0%, #d43d2c 100%);
+            color: white !important;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(233, 75, 60, 0.3);
+        }
+
+        .btn-reservar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(233, 75, 60, 0.4);
+        }
+
+        .cart-button {
+            position: relative;
+            background: white;
+            border: 2px solid #FDB515;
+            color: #333;
+            padding: 10px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+        }
+
+        .cart-button:hover {
+            background: #FDB515;
+            transform: scale(1.1);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #E94B3C;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            border: 2px solid white;
+        }
+
+        .btn-session {
+            background: transparent;
+            border: 2px solid #FDB515;
+            color: #FDB515;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-session:hover {
+            background: #FDB515;
+            color: white;
+        }
+
+        .btn-session.logged-in {
+            border-color: #E94B3C;
+            color: #E94B3C;
+        }
+
+        .btn-session.logged-in:hover {
+            background: #E94B3C;
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #FDB515 0%, #F5A623 100%);
+            padding: 80px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .hero-content {
+            flex: 1;
+            color: #333;
+        }
+
+        .hero-content h1 {
+            font-size: 56px;
+            font-weight: 900;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
+
+        .hero-content .subtitle {
+            font-size: 48px;
+            font-weight: 900;
+            color: #E94B3C;
+            margin-bottom: 20px;
+            text-transform: lowercase;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn-menu {
+            background: linear-gradient(135deg, #E94B3C 0%, #d43d2c 100%);
+            color: white;
+            padding: 15px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(233, 75, 60, 0.3);
+            font-size: 16px;
+        }
+
+        .btn-menu:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(233, 75, 60, 0.4);
+        }
+
+        .btn-ubicanos {
+            background: transparent;
+            color: #333;
+            padding: 15px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            border: 2px solid #333;
+            font-size: 16px;
+        }
+
+        .btn-ubicanos:hover {
+            background: #333;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .hero-logo {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-logo-box {
+            background: white;
+            padding: 40px 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .hero-logo-box .chile-icon {
+            font-size: 80px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .hero-logo-text {
+            font-size: 36px;
+            font-weight: 900;
+            color: #333;
+            line-height: 1.1;
+        }
+
+        .hero-logo-text .mas {
+            font-size: 16px;
+            display: block;
+        }
+
+        .hero-logo-text .chiludos {
+            color: #E94B3C;
+            font-size: 42px;
+        }
+
+        .hero-logo-text .restaurante {
+            font-size: 12px;
+            letter-spacing: 4px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Recomendados Section */
+        .recomendados {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 50px;
+        }
+
+        .section-header {
+            margin-bottom: 30px;
+        }
+
+        .section-header h2 {
+            font-size: 36px;
+            font-weight: 900;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .section-header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .menu-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: #E94B3C;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .card-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .card-description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .card-price {
+            font-size: 24px;
+            font-weight: 900;
+            color: #FDB515;
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 60px;
+        }
+
+        .footer p {
+            font-size: 14px;
+        }
+
+        @media (max-width: 968px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding: 60px 30px;
+            }
+
+            .hero-content h1 {
+                font-size: 40px;
+            }
+
+            .hero-content .subtitle {
+                font-size: 36px;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-logo {
+                margin-top: 40px;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+            }
+
+            .nav-links {
+                gap: 20px;
+            }
+
+            .nav-links a {
+                font-size: 14px;
+            }
+
+            .btn-reservar {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+
+            .recomendados {
+                padding: 0 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo-box">
+                <div class="logo-img">🌶️</div>
+                <span class="logo-name">Los Más Chiludos</span>
+            </div>
+        </div>
+        <nav class="nav-links">
+            <a href="inicio.html" class="active">Inicio</a>
+            <a href="menu.html">Menú</a>
+            <a href="inicio.html">Nosotros</a>
+            <button class="cart-button" onclick="window.location.href='carrito.html'">
+                🛒
+                <span class="cart-count" id="cartCount">0</span>
+            </button>
+            <button class="btn-session" id="sessionBtn" onclick="handleSession()">Iniciar Sesión</button>
+            <a href="reservas.html" class="btn-reservar">Reservar</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Sabor mexicano</h1>
+            <div class="subtitle">chiludísimo</div>
+            <p>Tacos, tortas y antojitos con ese toque 🌶️ que nos hace únicos.</p>
+            <div class="hero-buttons">
+                <a href="menu.html" class="btn-menu">Ver Menú</a>
+                <a href="nosotros.html" class="btn-ubicanos">Ubícanos</a>
+            </div>
+        </div>
+        <div class="hero-logo">
+            <div class="hero-logo-box">
+                <span class="chile-icon">🌶️</span>
+                <div class="hero-logo-text">
+                    <span class="mas">Los MÁS</span>
+                    <span class="chiludos">CHILUDOS</span>
+                    <span class="restaurante">RESTAURANTE</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recomendados Section -->
+    <section class="recomendados">
+        <div class="section-header">
+            <h2>Recomendados</h2>
+            <p>Lo más pedido por la banda</p>
+        </div>
+
+        <div class="menu-grid">
+            <div class="menu-card">
+                <span class="popular-badge">🔥 Popular</span>
+                <h3 class="card-title">Tacos de Asada</h3>
+                <p class="card-description">Carne suave, cebolla y cilantro.</p>
+                <div class="card-price">$35 MXN</div>
+            </div>
+
+            <div class="menu-card">
+                <h3 class="card-title">Torta Chiluda</h3>
+                <p class="card-description">Con salsa de la casa (nivel chiludo).</p>
+                <div class="card-price">$85 MXN</div>
+            </div>
+
+            <div class="menu-card">
+                <h3 class="card-title">Gringas al Pastor</h3>
+                <p class="card-description">Queso fundido y piña asada.</p>
+                <div class="card-price">$60 MXN</div>
+            </div>
+
+            <div class="menu-card">
+                <h3 class="card-title">Quesabirria</h3>
+                <p class="card-description">Con consomé para chopear.</p>
+                <div class="card-price">$65 MXN</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>🌶️ Los Más Chiludos - Sabor mexicano chiludísimo</p>
+        <p style="margin-top: 10px; font-size: 12px;">© 2025 Todos los derechos reservados</p>
+    </footer>
+
+    <script>
+        let cart = [];
+        let cartCount = 0;
+
+        function toggleCart() {
+            if (cart.length === 0) {
+                alert('🛒 Tu carrito está vacío\n\n¡Visita nuestro menú para agregar platillos chiludos!');
+                return;
+            }
+            
+            let total = 0;
+            let cartDetails = '🛒 CARRITO DE COMPRAS\n\n';
+            
+            cart.forEach((item, index) => {
+                cartDetails += `${index + 1}. ${item.name} - $${item.price} MXN\n`;
+                total += item.price;
+            });
+            
+            cartDetails += `\n━━━━━━━━━━━━━━━━━━━━\nTOTAL: $${total} MXN\n\nProductos: ${cartCount}`;
+            
+            alert(cartDetails);
+        }
+
+        // Sincronizar con el carrito si viene del menú
+        if (localStorage.getItem('cart')) {
+            cart = JSON.parse(localStorage.getItem('cart'));
+            cartCount = cart.length;
+            document.getElementById('cartCount').textContent = cartCount;
+        }
+
+        // Manejo de sesión
+        function checkSession() {
+            const token = localStorage.getItem('token');
+            const usuario = localStorage.getItem('usuario');
+            const sessionBtn = document.getElementById('sessionBtn');
+            
+            if (token && usuario) {
+                const user = JSON.parse(usuario);
+                sessionBtn.textContent = user.username;
+                sessionBtn.classList.add('logged-in');
+                sessionBtn.title = 'Cerrar sesión';
+            } else {
+                sessionBtn.textContent = 'Iniciar Sesión';
+                sessionBtn.classList.remove('logged-in');
+                sessionBtn.title = 'Iniciar sesión';
+            }
+        }
+
+        function handleSession() {
+            const token = localStorage.getItem('token');
+            
+            if (token) {
+                // Cerrar sesión
+                if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('usuario');
+                    alert('Sesión cerrada exitosamente');
+                    checkSession();
+                    window.location.reload();
+                }
+            } else {
+                // Ir a login
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Verificar sesión al cargar la página
+        checkSession();
+    </script>
+
+</body>
+</html>
