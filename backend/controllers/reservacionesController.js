@@ -131,7 +131,7 @@ const obtenerReservaciones = async (req, res) => {
         }
 
         if (fecha) {
-            query += ' AND r.fecha_reservacion = ?';
+            query += ' AND DATE(r.fecha_reservacion) = ?';
             params.push(fecha);
         } else {
             // Por defecto, mostrar reservaciones de hoy y futuras
