@@ -78,6 +78,14 @@ const crearReservacion = async (req, res) => {
             [usuario_id, mesa_id, nombre_completo, telefono, email || null, numero_personas, fecha_reservacion, hora_reservacion, comentarios || null, 'confirmada']
         );
 
+        // Actualizar el estado de la mesa a 'reservada'
+        await connection.query(
+            'UPDATE mesas SET estado = ? WHERE id = ?',
+            ['reservada', mesa_id]
+        );
+
+        console.log(`✅ Reservación creada y Mesa #${mesa_id} marcada como reservada`);
+
         await connection.commit();
 
         res.status(201).json({
@@ -119,7 +127,7 @@ const obtenerReservaciones = async (req, res) => {
                 u.nombre_completo as usuario_nombre
             FROM reservaciones r
             INNER JOIN mesas m ON r.mesa_id = m.id
-            LEFT JOIN usuarios u ON r.usuario_id = u.id
+            INNER JOIN usuarios u ON r.usuario_id = u.id
             WHERE 1=1
         `;
         
@@ -131,7 +139,7 @@ const obtenerReservaciones = async (req, res) => {
         }
 
         if (fecha) {
-            query += ' AND DATE(r.fecha_reservacion) = ?';
+            query += ' AND r.fecha_reservacion = ?';
             params.push(fecha);
         } else {
             // Por defecto, mostrar reservaciones de hoy y futuras
@@ -313,6 +321,14 @@ const cancelarReservacion = async (req, res) => {
             'UPDATE reservaciones SET estado = ? WHERE id = ?',
             ['cancelada', id]
         );
+
+        // Liberar la mesa (cambiar estado a disponible)
+        await pool.query(
+            'UPDATE mesas SET estado = ? WHERE id = ?',
+            ['disponible', reservaciones[0].mesa_id]
+        );
+
+        console.log(`✅ Reservación #${id} cancelada y Mesa #${reservaciones[0].mesa_id} liberada`);
 
         res.json({
             success: true,
