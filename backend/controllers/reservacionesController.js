@@ -119,7 +119,7 @@ const obtenerReservaciones = async (req, res) => {
                 u.nombre_completo as usuario_nombre
             FROM reservaciones r
             INNER JOIN mesas m ON r.mesa_id = m.id
-            INNER JOIN usuarios u ON r.usuario_id = u.id
+            LEFT JOIN usuarios u ON r.usuario_id = u.id
             WHERE 1=1
         `;
         
