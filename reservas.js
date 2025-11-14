@@ -297,10 +297,18 @@ document.addEventListener('DOMContentLoaded', function() {
     cargarMesas();
 
     // Configurar fecha mínima (hoy)
-    const dateInput = document.getElementById('date');
-    const today = new Date().toISOString().split('T')[0];
-    dateInput.setAttribute('min', today);
-    dateInput.value = today;
+    // Configurar fecha mínima (hoy)
+const dateInput = document.getElementById('date');
+
+const today = new Date(); // Obtiene la fecha/hora local
+const año = today.getFullYear();
+const mes = String(today.getMonth() + 1).padStart(2, '0'); // getMonth() es 0-indexado
+const dia = String(today.getDate()).padStart(2, '0');
+
+const fechaLocal = `${año}-${mes}-${dia}`; // Formato YYYY-MM-DD
+
+dateInput.setAttribute('min', fechaLocal);
+dateInput.value = fechaLocal;
 
     // Configurar hora por defecto
     const timeInput = document.getElementById('time');
