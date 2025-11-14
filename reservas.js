@@ -1,5 +1,5 @@
 // Configuración de la API
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'http://losmaschiludos-env.eba-nancjrev.us-east-1.elasticbeanstalk.com/api';
 
 let selectedTable = null;
 let mesasDisponibles = [];
